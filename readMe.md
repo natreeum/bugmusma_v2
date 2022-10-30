@@ -67,8 +67,9 @@
 {
   "tickets":[
     {
-      "buyer" : [string],
-      "betAmount": [number]
+      "buyer" : [string:userId], // 구매자 userId
+      "betAmount": [number], // 베팅 금액
+      "choosedPlayerUserId": [string:userId], // 선택
     }
   ]
 }

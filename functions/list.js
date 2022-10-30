@@ -13,7 +13,7 @@ async function list(interaction) {
   let message = `총 티켓 판매금액 : \`${gameData.totalBet} BTC\`\n\n`;
   let cnt = 1;
   for (let i of players) {
-    message += `<@${i.playerUserId}>\n\`${cnt}번 선수 승리 시\` 배팅 금액의 x${i.rate} 지급\n\n`;
+    message += `\`${cnt}번 선수 승리 시\` 배팅 금액의 x${i.rate} 지급\n선수 : <@${i.playerUserId}>\n\n`;
     cnt++;
   }
 

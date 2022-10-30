@@ -56,7 +56,20 @@ module.exports = {
       }
       await sell_end(interaction);
     }
-    if (interaction.options.getSubcommand() === '') {
+    if (interaction.options.getSubcommand() === '구매') {
+      if (gameData.canBuy === false) {
+        return await interaction.reply({
+          content: '지금은 티켓을 구매할 수 없습니다.',
+          ephemeral: true,
+        });
+      }
+      if (interaction.options.getInteger('금액') < 20) {
+        return await interaction.reply({
+          content: '최소 베팅금액은 20BTC 입니다.',
+          ephemeral: true,
+        });
+      }
+      await buy(interaction);
     }
     if (interaction.options.getSubcommand() === '') {
     }

@@ -145,8 +145,9 @@
 <pre><code class="language-js"><div>{
   <span class="hljs-string">&quot;tickets&quot;</span>:[
     {
-      <span class="hljs-string">&quot;buyer&quot;</span> : [string],
-      <span class="hljs-string">&quot;betAmount&quot;</span>: [number]
+      <span class="hljs-string">&quot;buyer&quot;</span> : [string:userId], <span class="hljs-comment">// 구매자 userId</span>
+      <span class="hljs-string">&quot;betAmount&quot;</span>: [number], <span class="hljs-comment">// 베팅 금액</span>
+      <span class="hljs-string">&quot;choosedPlayerUserId&quot;</span>: [string:userId], <span class="hljs-comment">// 선택</span>
     }
   ]
 }

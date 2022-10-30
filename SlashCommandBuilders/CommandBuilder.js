@@ -38,7 +38,23 @@ const CommandBuilder = new SlashCommandBuilder()
         o.setName('선수_10').setDescription('선수를 고릅니다')
       )
   )
-  .addSubcommand((s) => s.setName('구매').setDescription('선수를 등록합니다.'))
+  .addSubcommand((s) =>
+    s
+      .setName('구매')
+      .setDescription('선수를 등록합니다.')
+      .addUserOption((o) =>
+        o
+          .setName('선수')
+          .setDescription('선수를 선택해주세요')
+          .setRequired(true)
+      )
+      .addIntegerOption((o) =>
+        o
+          .setName('금액')
+          .setDescription('베팅금액의 5%는 선택한 선수에게 즉시 지급됩니다.')
+          .setRequired(true)
+      )
+  )
   .addSubcommand((s) => s.setName('명단').setDescription('선수를 등록합니다.'))
   .addSubcommand((s) => s.setName('리셋').setDescription('선수를 등록합니다.'))
   .addSubcommand((s) =>
