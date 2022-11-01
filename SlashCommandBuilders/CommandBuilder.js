@@ -41,7 +41,7 @@ const CommandBuilder = new SlashCommandBuilder()
   .addSubcommand((s) =>
     s
       .setName('구매')
-      .setDescription('선수를 등록합니다.')
+      .setDescription('티켓을 구매합니다.')
       .addUserOption((o) =>
         o
           .setName('선수')
@@ -55,14 +55,28 @@ const CommandBuilder = new SlashCommandBuilder()
           .setRequired(true)
       )
   )
-  .addSubcommand((s) => s.setName('명단').setDescription('선수를 등록합니다.'))
-  .addSubcommand((s) => s.setName('리셋').setDescription('선수를 등록합니다.'))
   .addSubcommand((s) =>
-    s.setName('판매시작').setDescription('선수를 등록합니다.')
+    s.setName('명단').setDescription('선수명단을 조회합니다.')
   )
   .addSubcommand((s) =>
-    s.setName('판매종료').setDescription('선수를 등록합니다.')
+    s.setName('리셋').setDescription('게임데이터를 초기화 합니다.')
   )
-  .addSubcommand((s) => s.setName('결과').setDescription('선수를 등록합니다.'));
+  .addSubcommand((s) =>
+    s.setName('판매시작').setDescription('판매를 시작합니다.')
+  )
+  .addSubcommand((s) =>
+    s.setName('판매종료').setDescription('판매를 종료합니다.')
+  )
+  .addSubcommand((s) =>
+    s
+      .setName('결과')
+      .setDescription('결과를 입력합니다.')
+      .addUserOption((o) =>
+        o
+          .setName('선수')
+          .setDescription('우승한 선수를 골라주세요.')
+          .setRequired(true)
+      )
+  );
 
 module.exports = CommandBuilder;

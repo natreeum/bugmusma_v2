@@ -29,6 +29,16 @@ async function buy(interaction) {
   const choosed = interaction.options.getUser('선수').id;
   // 선수명단체크
   let playerDataForCheck = readFile('./json/player.json');
+  let isBuyerPlay = playerDataForCheck.players.filter(
+    (e) => e.playerUserId === commandUser.id
+  );
+  if (isBuyerPlay.length > 0) {
+    if (commandUser.id !== choosed)
+      return await interaction.reply({
+        content: `선수명단에 있는 시민은 본인 티켓만 구매할 수 있습니다.`,
+        ephemeral: true,
+      });
+  }
   playerDataForCheck.players = playerDataForCheck.players.filter(
     (e) => e.playerUserId === choosed
   );
@@ -38,7 +48,7 @@ async function buy(interaction) {
       ephemeral: true,
     });
   }
-
+  await interaction.deferReply();
   const optionBetAmount = interaction.options.getInteger('금액');
   await bankManager.depositBTC(commandUser.id, optionBetAmount);
   let gameData = readFile('./json/gamedata.json');
@@ -75,7 +85,7 @@ async function buy(interaction) {
     message += `\`${cnt}번 선수 승리 시\` 배팅 금액의 x${i.rate} 지급\n선수 : <@${i.playerUserId}>\n\n`;
     cnt++;
   }
-  await interaction.reply(message);
+  await interaction.editReply(message);
 }
 
 module.exports = buy;
