@@ -63,6 +63,12 @@ module.exports = {
           ephemeral: true,
         });
       }
+      if (gameData.isRegistered === false) {
+        return await interaction.reply({
+          content: `선수 명단이 등록되지 않았습니다.`,
+          ephemeral: true,
+        });
+      }
       if (gameData.canBuy === true) {
         return await interaction.reply({
           content: `이미 티켓이 판매중입니다.`,
