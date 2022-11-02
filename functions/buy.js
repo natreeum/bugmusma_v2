@@ -79,7 +79,7 @@ async function buy(interaction) {
   }
   console.log(playerData.players);
   for (let i of playerData.players) {
-    if (i.betAmount === '0') i.rate = '??';
+    if (i.betAmount === 0) i.rate = '??';
     else i.rate = Math.floor((totalBetAfterFee / i.betAmount) * 100) / 100;
   }
   console.log(playerData.players);
