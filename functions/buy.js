@@ -77,10 +77,10 @@ async function buy(interaction) {
   for (let i of playerData.players) {
     totalBetAfterFee += i.betAmount;
   }
-  playerData.players[playerIndex].rate =
-    Math.floor(
-      (totalBetAfterFee / playerData.players[playerIndex].betAmount) * 100
-    ) / 100;
+  for (let i of playerData.players) {
+    if (i.betAmount === '0') i.rate = '??';
+    else i.rate = Math.floor((totalBetAfterFee / i.betAmount) * 100) / 100;
+  }
   writeFile('./json/gamedata.json', gameData);
   writeFile('./json/player.json', playerData);
   writeFile('./json/tickets.json', ticketData);
