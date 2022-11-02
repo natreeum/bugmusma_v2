@@ -77,6 +77,24 @@ const CommandBuilder = new SlashCommandBuilder()
           .setDescription('우승한 선수를 골라주세요.')
           .setRequired(true)
       )
+  )
+  .addSubcommand((s) =>
+    s
+      .setName('수정')
+      .setDescription('선수 명단을 수정합니다. [추가/삭제]')
+      .addStringOption((o) =>
+        o
+          .setName('선택')
+          .setDescription('삭제/추가 중 하나를 고르세요.')
+          .addChoices(
+            { name: '삭제', value: '삭제' },
+            { name: '추가', value: '추가' }
+          )
+          .setRequired(true)
+      )
+      .addUserOption((o) =>
+        o.setName('선수').setDescription('선수를 입력하세요.').setRequired(true)
+      )
   );
 
 module.exports = CommandBuilder;

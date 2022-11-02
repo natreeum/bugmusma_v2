@@ -48,7 +48,7 @@ module.exports = {
       await reset(interaction);
     }
     if (interaction.options.getSubcommand() === '명단') {
-      if (gameData.isRegistered === false || gameData.canBuy === false) {
+      if (gameData.isRegistered === false) {
         return await interaction.reply({
           content: `등록된 선수 명단이 없거나 아직 명단을 조회할 수 없습니다.`,
           ephemeral: true,
@@ -122,7 +122,26 @@ module.exports = {
       }
       await result(interaction);
     }
-    if (interaction.options.getSubcommand() === '') {
+    if (interaction.options.getSubcommand() === '수정') {
+      if (!permissionCheck(interaction.user.id)) {
+        return await interaction.reply({
+          content: `명령어를 사용할 권한이 없습니다.`,
+          ephemeral: true,
+        });
+      }
+      if (gameData.canBuy === true) {
+        return await interaction.reply({
+          content: `티켓 판매중에는 수정할 수 없습니다.`,
+          ephemeral: true,
+        });
+      }
+      if (gameData.isRegistered === false) {
+        return await interaction.reply({
+          content: `선수명단이 등록되지 않았습니다.`,
+          ephemeral: true,
+        });
+      }
+      await modify(interaction);
     }
   },
 };

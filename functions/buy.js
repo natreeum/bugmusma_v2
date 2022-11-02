@@ -49,7 +49,13 @@ async function buy(interaction) {
     });
   }
   await interaction.deferReply();
+  const balance = await bankManager.getBalance(commandUser.id);
   const optionBetAmount = interaction.options.getInteger('금액');
+  if (balance < optionBetAmount) {
+    return await interaction.reply(
+      `<@${commandUser.id}> 잔액보다 큰 금액을 베팅할 수 없습니다😞`
+    );
+  }
   await bankManager.depositBTC(commandUser.id, optionBetAmount);
   let gameData = readFile('./json/gamedata.json');
   await bankManager.withdrawBTC(choosed, optionBetAmount * gameData.toPlayer);

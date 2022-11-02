@@ -37,14 +37,19 @@ async function result(interaction) {
     } BTC**를 지급했습니다.\n`;
   }
   await interaction.editReply(message);
-  await bankManager.withdrawBTC(
-    '901812980944097300',
-    Math.floor(gameData.totalBet * gameData.toCeo * 100) / 100
-  );
-  await bankManager.withdrawBTC(
-    '251349298300715008',
-    Math.floor(gameData.totalBet * gameData.toDev * 100) / 100
-  );
+  if (
+    Math.floor(gameData.totalBet * gameData.toCeo * 100) / 100 > 1 &&
+    Math.floor(gameData.totalBet * gameData.toDev * 100) / 100 > 1
+  ) {
+    await bankManager.withdrawBTC(
+      '901812980944097300',
+      Math.floor(gameData.totalBet * gameData.toCeo * 100) / 100
+    );
+    await bankManager.withdrawBTC(
+      '251349298300715008',
+      Math.floor(gameData.totalBet * gameData.toDev * 100) / 100
+    );
+  }
   for (i of playerData.players) {
     i.betAmount = 0;
     i.rate = '??';
