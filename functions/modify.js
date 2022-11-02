@@ -28,9 +28,6 @@ async function modify(interaction) {
       });
     }
     const delPlayerIndex = playerData.players.indexOf(delPlayerData[0]);
-    console.log(delPlayerData);
-    console.log(playerData);
-    console.log(delPlayerIndex);
     playerData.players.splice(delPlayerIndex, 1);
     writeFile('./json/player.json', playerData);
     message += `삭제가 `;
