@@ -16,6 +16,18 @@ function writeFile(fileDir, data) {
 
 async function result(interaction) {
   const winnerUserId = interaction.options.getUser('선수').id;
+  // 선수명단체크
+  let playerDataForCheck = readFile('./json/player.json');
+  playerDataForCheck.players = playerDataForCheck.players.filter(
+    (e) => e.playerUserId === winnerUserId
+  );
+  if (playerDataForCheck.players.length === 0) {
+    return await interaction.reply({
+      content: `명단에 없는 선수입니다.`,
+      ephemeral: true,
+    });
+  }
+
   let playerData = readFile('./json/player.json');
   let ticketData = readFile('./json/tickets.json');
   let gameData = readFile('./json/gamedata.json');
