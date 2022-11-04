@@ -43,10 +43,9 @@ async function result(interaction) {
   const rate = winnerPlayerData[0].rate;
   let message = `<@${winnerUserId}> 선수가 우승했습니다! 축하드립니다🥳\n\n`;
   for (let i of ticketData) {
-    await bankManager.withdrawBTC(i.buyer, i.betAmount * rate);
-    message += `<@${i.buyer}> 축하드립니다! **${
-      i.betAmount * rate
-    } BTC**를 지급했습니다.\n`;
+    const payAmount = Math.floor(i.betAmount * rate * 100) / 100;
+    await bankManager.withdrawBTC(i.buyer, payAmount);
+    message += `<@${i.buyer}> 축하드립니다! **${payAmount} BTC**를 지급했습니다.\n`;
   }
   await interaction.editReply(message);
   if (
