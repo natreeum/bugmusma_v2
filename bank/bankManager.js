@@ -1,71 +1,71 @@
-const axios = require('axios');
-const { api, bugcityApiKey } = require('../envVariables');
+const got = require('got');
+const { api, bugcity, storageName } = require('../config');
+const { log } = require('../utils/webhook');
+
+const option = {
+  prefixUrl: `${api}/v2`,
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Auth-Token': bugcity,
+  },
+};
+
+const apiUrl = got.extend(option);
+
 class BankManager {
-  async depositBTC(userId, amount) {
-    if (!userId || !amount) {
-      console.log('Wrong Params');
-      return;
-    }
-    const body = {
-      storageName: 'BUGkshireHathaway',
-      amount: String(amount),
-      userId,
-      token: bugcityApiKey,
-      memo: 'deposit to BUGkshireHathaway',
-    };
-    await axios({
-      method: 'post',
-      url: `${api}/bugcity/storage/deposit`,
-      data: body,
-    })
-      .then((res) => {
-        if (res.data.data.state === 'success') {
-          console.log(`deposit SUCCESS, ${userId} : ${amount} BTC`);
-        } else {
-          console.log(`deposit FAILED, ${userId} : ${amount} BTC`);
-        }
-      })
-      .catch((e) => {
-        console.error(e);
+  async depositBTC(user, amount) {
+    if (!user || !amount) return;
+    let depositRes;
+    let depositResBody;
+    try {
+      //code here
+      const body = {
+        userId: user,
+        point: amount,
+        memo: 'sport_club deposit',
+      };
+
+      depositRes = await apiUrl.post(`storages/${storageName}/deposit`, {
+        json: body,
       });
-  }
-  async withdrawBTC(userId, amount) {
-    if (!userId || !amount) {
-      console.log('Wrong Params');
-      return;
+      depositResBody = JSON.parse(depositRes.body);
+      log(
+        `[SPORT_CLUB Deposit Success] <@${depositResBody.userId}> Deposit ${depositResBody.point.added} BTC`
+      );
+    } catch (e) {
+      console.error(e);
+      log(
+        `[SPORT_CLUB Deposit Failed] <@${depositResBody.userId}> Deposit ${depositResBody.point.added} BTC`
+      );
     }
-    const body = {
-      storageName: 'BUGkshireHathaway',
-      amount: String(amount),
-      userId,
-      token: bugcityApiKey,
-      memo: 'deposit to BUGkshireHathaway',
-    };
-    await axios({
-      method: 'post',
-      url: `${api}/bugcity/storage/withdraw`,
-      data: body,
-    }).then((res) => {
-      if (res.data.data.state === 'success') {
-        console.log(`withdraw SUCCESS, ${userId} : ${amount} BTC`);
-      } else {
-        console.log(`withdraw FAILED, ${userId} : ${amount} BTC`);
-      }
-    });
   }
-  async getBalance(userId) {
-    if (!userId) {
-      console.log('Wrong Params');
-      return;
+  async withdrawBTC(user, amount) {
+    if (!user || !amount) return;
+    let withdrawRes;
+    let withdrawResBody;
+    try {
+      //code here
+      const body = {
+        userId: user,
+        point: amount,
+        memo: 'sport_club deposit',
+      };
+
+      withdrawRes = await apiUrl.post(`storages/${storageName}/withdraw`, {
+        json: body,
+      });
+      withdrawResBody = JSON.parse(withdrawRes.body);
+      log(
+        `[SPORT_CLUB Withdraw Success] <@${withdrawResBody.userId}> Withdraw ${withdrawResBody.point.added} BTC`
+      );
+    } catch (e) {
+      console.error(e);
+      log(
+        `[SPORT_CLUB Withdraw failed] <@${withdrawResBody.userId}> Withdraw ${withdrawResBody.point.added} BTC`
+      );
     }
-    return await axios({
-      method: 'get',
-      url: `${api}/v2/users/${userId}/points/bugtc`,
-      headers: {
-        'X-Auth-Token': bugcityApiKey,
-      },
-    }).then((res) => res.data.point.current);
   }
+  async getBTC(user) {}
 }
 
 module.exports = BankManager;
