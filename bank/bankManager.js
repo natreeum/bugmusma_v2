@@ -29,6 +29,9 @@ class BankManager {
         json: body,
       });
       depositResBody = JSON.parse(depositRes.body);
+      console.log(
+        `[SPORT_CLUB Deposit Success] <@${depositResBody.userId}> Deposit ${depositResBody.point.added} BTC`
+      );
       log(
         `[SPORT_CLUB Deposit Success] <@${depositResBody.userId}> Deposit ${depositResBody.point.added} BTC`
       );
@@ -55,6 +58,9 @@ class BankManager {
         json: body,
       });
       withdrawResBody = JSON.parse(withdrawRes.body);
+      console.log(
+        `[SPORT_CLUB Withdraw Success] <@${withdrawResBody.userId}> Withdraw ${withdrawResBody.point.added} BTC`
+      );
       log(
         `[SPORT_CLUB Withdraw Success] <@${withdrawResBody.userId}> Withdraw ${withdrawResBody.point.added} BTC`
       );
@@ -65,7 +71,15 @@ class BankManager {
       );
     }
   }
-  async getBTC(user) {}
+  async getBalance(user) {
+    if (!user) return;
+    try {
+      const getBalanceRes = await apiUrl.get(`users/${user}/points/bugtc`);
+      return JSON.parse(getBalanceRes.body).point.current;
+    } catch (e) {
+      console.error(e);
+    }
+  }
 }
 
 module.exports = BankManager;
